@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 
 const starterProducts = [
@@ -11,10 +12,25 @@ const starterProducts = [
 
 export default function HomePage() {
   // TODO (Trin 1): Gem env-værdier i variabler, fx:
-  // const URL = import.meta.env.VITE_SUPABASE_URL;
-  // const APIKEY = import.meta.env.VITE_SUPABASE_APIKEY;
+  const URL = import.meta.env.VITE_SUPABASE_URL;
+  const APIKEY = import.meta.env.VITE_SUPABASE_APIKEY;
+
   // TODO (Trin 2): Implementer GET i HomePage med useEffect/useState og fetch.
-  const products = starterProducts;
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await fetch(URL, {
+        headers: {
+          apikey: APIKEY,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
 
   return (
     <main className="app">
