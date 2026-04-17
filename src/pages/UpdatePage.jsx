@@ -11,9 +11,20 @@ export default function UpdatePage() {
     image: "",
   };
 
+  const URL = import.meta.env.VITE_SUPABASE_URL;
+  const APIKEY = import.meta.env.VITE_SUPABASE_APIKEY;
+
   async function handleSubmit(productData) {
     console.log("UpdatePage productData:", productData);
     // TODO (Trin 4): Implementer PATCH med fetch til `${URL}?id=eq.${id}`.
+    await fetch(`${URL}?id=eq.${id}`, {
+      method: "PATCH",
+      headers: {
+        apikey: APIKEY,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(productData),
+    });
     navigate(`/products/${id}`);
   }
 
