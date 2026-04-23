@@ -1,18 +1,34 @@
-import { use, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = {
+  const [product, setProduct] = useState({
     id,
     title: "NEW Product",
     price: 0,
     image: "",
-  };
+  });
 
   const URL = import.meta.env.VITE_SUPABASE_URL;
   const APIKEY = import.meta.env.VITE_SUPABASE_APIKEY;
+
+  useEffect(() => {
+    async function fetchProduct() {
+      const response = await fetch(`${URL}?id=eq.${id}`, {
+        headers: {
+          apikey: APIKEY,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+
+      setProduct(data[0]);
+    }
+    fetchProduct();
+  }, [URL, APIKEY, id]);
 
   async function handleDelete() {
     const confirmed = window.confirm("Delete this product?");
