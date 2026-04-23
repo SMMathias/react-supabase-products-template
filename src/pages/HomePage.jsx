@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 
-const starterProducts = [
-  {
-    id: "starter-1",
-    title: "Starter Product",
-    price: 0,
-    image: "",
-  },
-];
-
 export default function HomePage() {
   // TODO (Trin 1): Gem env-værdier i variabler, fx:
   const URL = import.meta.env.VITE_SUPABASE_URL;

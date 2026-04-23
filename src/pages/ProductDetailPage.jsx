@@ -1,3 +1,4 @@
+import { use, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router";
 
 export default function ProductDetailPage() {
@@ -5,15 +6,24 @@ export default function ProductDetailPage() {
   const navigate = useNavigate();
   const product = {
     id,
-    title: "Starter Product",
+    title: "NEW Product",
     price: 0,
     image: "",
   };
 
+  const URL = import.meta.env.VITE_SUPABASE_URL;
+  const APIKEY = import.meta.env.VITE_SUPABASE_APIKEY;
+
   async function handleDelete() {
     const confirmed = window.confirm("Delete this product?");
     if (confirmed) {
-      // TODO (Trin 5): Implementer DELETE med fetch til `${URL}?id=eq.${id}`.
+      await fetch(`${URL}?id=eq.${id}`, {
+        method: "DELETE",
+        headers: {
+          apikey: APIKEY,
+          "Content-Type": "application/json",
+        },
+      });
       navigate("/");
     }
   }
